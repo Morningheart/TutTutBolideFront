@@ -4,7 +4,11 @@ from django import forms
 from .component.map import *
 from .component.map_copy import copy_coords
 
-from .service.serviceAPITravel import callAPITravel
+from .service.serviceAPITravel import callAPITravel, getCoordsOfTown
+from .service.serviceAPIDistance import callDistance
+from .service.serviceAPITutTut import getModeleTutTutFromName
+from .service.serviceAPIBorne import callAPIBorne
+import requests
 
 class TutTutRecup(forms.Form):
     tuttutName = forms.CharField(label='Le modèle de votre voiture', max_length=20)
@@ -26,9 +30,25 @@ def index(request):
     if request.method == 'POST':
         tuttut = TutTutRecup(request.POST)
         if tuttut.is_valid():
-            modeleVoitureSearch = tuttut.cleaned_data['tuttutName']
-            print('Modèle entré :', modeleVoitureSearch)
+            # 1 - récupérer les coordonnées des villes départ arrivée
+            coords = [getCoordsOfTown(tuttut.cleaned_data['villeFrom']),getCoordsOfTown(tuttut.cleaned_data['villeTo'])]
+            # 2 - API REST -> récup distance entre les points
+            distanceMax = callDistance(coords)
+            # 3 - GRAPHQL -> récup un des modèles correspondant au nom du véhicule
+            # modeleVoiture = getModeleTutTutFromName(tuttut.cleaned_data['tuttutName'])
+            # 4 - autonomie = .7 * autonomie minimale de la TutTut
+            autonomie = 100 # HARDCODED
+            # 5 - calculer coordonnées moyennes des points intermédiaires (interpolation des coordonnées maximales tmtc)
+            # ...
+            # 6 - Chercher une borne aux environs de chacun des points moyens
+            listBornes = callAPIBorne(tuttut.cleaned_data['villeFrom'],tuttut.cleaned_data['villeTo'], autonomie, my_map)
+            # 7 - Calculer le trajet avec étapes correspondant aux bornes
             travel = callAPITravel(tuttut.cleaned_data['villeFrom'],tuttut.cleaned_data['villeTo'], my_map)
+            # 8 - SOAP -> envoyer distance trajet + temps de recharge moyen (en fastcharge oui ou non) + nombre d'arrêts -> temps estimé avec trajet
+            # ...
+            # 9 - afficher sur la carte le trajet + temps estimé du trajet avec arrêts
+            # ...
+            
             folium.GeoJson(travel, name="Trajet").add_to(my_map)
             folium.LayerControl().add_to(my_map)
     else:
