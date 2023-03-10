@@ -3,8 +3,8 @@ import requests
 
 clientTutTut = GraphQLClient(endpoint="https://api.chargetrip.io/graphql")
 queryTutTut = """
-query vehicleListAll {
-  vehicleList ($name){
+query vehicleListAll ($name: String!)) {
+  vehicleList (search: $name) {
     naming {
       make
       model
