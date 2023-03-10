@@ -4,6 +4,7 @@ from django import forms
 from .component.map import *
 from .component.map_copy import copy_coords
 
+from .service.serviceAPITravel import callAPITravel
 
 class TutTutRecup(forms.Form):
     tuttutName = forms.CharField(label='Le modèle de votre voiture', max_length=20)
@@ -27,9 +28,9 @@ def index(request):
         if tuttut.is_valid():
             modeleVoitureSearch = tuttut.cleaned_data['tuttutName']
             print('Modèle entré :', modeleVoitureSearch)
-            # travel = callAPITravel(tuttut.cleaned_data['villeFrom'],tuttut.cleaned_data['villeTo'], my_map)
-            # folium.GeoJson(travel, name="Trajet").add_to(my_map)
-            # folium.LayerControl().add_to(my_map)
+            travel = callAPITravel(tuttut.cleaned_data['villeFrom'],tuttut.cleaned_data['villeTo'], my_map)
+            folium.GeoJson(travel, name="Trajet").add_to(my_map)
+            folium.LayerControl().add_to(my_map)
     else:
         tuttut = TutTutRecup()
         
