@@ -50,11 +50,10 @@ def getModeleTutTutFromName(name):
   variablesTutTut = {
     "name" : "\"" + name + "\""
   }
-  print("name : " + name)
   
   # Call API to find the bornes
   dataTutTut = clientTutTut.execute(query=queryTutTut, variables=variablesTutTut)
   
-  return dataTutTut["data"][0]
+  return dataTutTut[0]
 
     
