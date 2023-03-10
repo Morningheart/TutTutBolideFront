@@ -1,6 +1,5 @@
 import requests
 import folium
-from python_graphql_client import GraphqlClient
 
 def getCoordsOfTown(town):
     ville = requests.get("https://api.openrouteservice.org/geocode/search?api_key=5b3ce3597851110001cf6248ae8b2b8cd4f943509643db9544603784&text="+ town +"&boundary.country=FR")

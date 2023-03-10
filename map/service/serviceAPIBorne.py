@@ -1,8 +1,8 @@
 import requests
 import folium
-from python_graphql_client import GraphqlClient
+from graphqlclient import GraphQLClient
 
-clientBorne = GraphqlClient(endpoint="https://api.placetoplug.com/go/graphql")
+clientBorne = GraphQLClient(endpoint="https://api.placetoplug.com/go/graphql")
 queryBorne = """query Query ($query: FindChargingZone!) {
                     findChargingZones(query: $query) {
                         chargingZones {
