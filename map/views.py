@@ -43,7 +43,7 @@ def index(request):
             # 5 - calculer coordonnées moyennes des points intermédiaires (interpolation des coordonnées maximales tmtc)
             # ...
             # 6 - Chercher une borne aux environs de chacun des points moyens
-            listBornes = callAPIBorne(tuttut.cleaned_data['villeFrom'],tuttut.cleaned_data['villeTo'], autonomie, my_map)
+            # listBornes = callAPIBorne(tuttut.cleaned_data['villeFrom'],tuttut.cleaned_data['villeTo'], autonomie, my_map)
             # 7 - Calculer le trajet avec étapes correspondant aux bornes
             travel = callAPITravel(tuttut.cleaned_data['villeFrom'],tuttut.cleaned_data['villeTo'], my_map)
             # 8 - SOAP -> envoyer distance trajet + temps de recharge moyen + nombre d'arrêts -> temps estimé avec trajet
