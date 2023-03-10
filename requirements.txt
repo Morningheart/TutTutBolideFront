@@ -6,5 +6,7 @@ jinja2-time==0.2.0
 requests==2.28.1
 requests-file==1.5.1
 requests-toolbelt==0.10.1
-python-graphql-client==0.4.3
+graphql-core==3.2.3
+graphql-relay==3.2.0
+graphqlclient==0.2.4
 geocoder==1.38.1

@@ -1,7 +1,7 @@
-from python_graphql_client import GraphqlClient
+from graphqlclient import GraphQLClient
 import requests
 
-clientTutTut = GraphqlClient(endpoint="https://api.chargetrip.io/graphql")
+clientTutTut = GraphQLClient(endpoint="https://api.chargetrip.io/graphql")
 queryTutTut = """query vehicleListFilter($query: vehicleList!) {
                     vehicleList(query: $query) {
                         id
