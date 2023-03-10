@@ -46,7 +46,7 @@ clientTutTut.inject_token("623996f3c35130073829b252", "x-app-id")
 
 def getModeleTutTutFromName(name):
     variablesTutTut = {
-      name
+      "name" : name
     }
     
     # Call API to find the bornes
