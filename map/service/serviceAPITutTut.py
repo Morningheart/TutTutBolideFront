@@ -29,7 +29,6 @@ clientTutTut.inject_token("623996f3c35130073829b252","x-app-id")
 
 
 def getModeleTutTutFromName(name):
-    return name
     variablesTutTut = {
         "query": {
             "search": name,

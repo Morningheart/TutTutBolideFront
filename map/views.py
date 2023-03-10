@@ -6,7 +6,7 @@ from .component.map_copy import copy_coords
 
 from .service.serviceAPITravel import callAPITravel, getCoordsOfTown
 from .service.serviceAPIDistance import callDistance
-# from .service.serviceAPITutTut import getModeleTutTutFromName
+from .service.serviceAPITutTut import getModeleTutTutFromName
 from .service.serviceAPIBorne import callAPIBorne
 import requests
 
@@ -34,8 +34,10 @@ def index(request):
             coords = [getCoordsOfTown(tuttut.cleaned_data['villeFrom']),getCoordsOfTown(tuttut.cleaned_data['villeTo'])]
             # 2 - API REST -> récup distance entre les points
             distanceMax = callDistance(coords)
+            print(distanceMax)
             # 3 - GRAPHQL -> récup un des modèles correspondant au nom du véhicule
-            # modeleVoiture = getModeleTutTutFromName(tuttut.cleaned_data['tuttutName'])
+            modeleVoiture = getModeleTutTutFromName(tuttut.cleaned_data['tuttutName'])
+            print(modeleVoiture)
             # 4 - autonomie = .7 * autonomie minimale de la TutTut
             autonomie = 100 # HARDCODED
             # 5 - calculer coordonnées moyennes des points intermédiaires (interpolation des coordonnées maximales tmtc)
