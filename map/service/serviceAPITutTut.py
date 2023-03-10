@@ -10,15 +10,15 @@ queryTutTut = """query vehicleListFilter($query: vehicleList!) {
                             version
                             edition
                         }
+                        connectors {
+                            time
+                        }
                         range {
                             worst {
                                 combined {
-                                    unit=meter
-                                }
-                            }
-                            chargetrip_range {
-                                worst {
-
+                                    unit {
+                                        kilometer
+                                    }
                                 }
                             }
                         }
@@ -39,5 +39,6 @@ def getModeleTutTutFromName(name):
     
     # Call API to find the bornes
     dataTutTut = clientTutTut.execute(query=queryTutTut, variables=variablesTutTut)
+    return dataTutTut["data"][0]
 
     
