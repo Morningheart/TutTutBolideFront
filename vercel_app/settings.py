@@ -38,7 +38,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'example'
+    
+    'tailwind',
+    'Map',
+    'django_browser_reload'
 ]
+
+TAILWIND_APP_NAME = 'Map'
+TAILWIND_CSS_PATH = 'css/dist/styles.css'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
