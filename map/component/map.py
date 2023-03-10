@@ -1,6 +1,11 @@
 import folium
+# from ipregistry import IpregistryClient
 
-def create_map():   
+def create_map():
+    # client = IpregistryClient("tryout")  
+    # ipInfo = client.lookup() 
+    # print(ipInfo)
+
     #Define coordinates of where we want to center our map
     boulder_coords = [45.64919040418908, 5.86433719433594]
 

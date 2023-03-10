@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django import forms
 
-from .map import *
-from .map_copy import copy_coords
+from component.map import *
+from component.map_copy import copy_coords
 
 
 class TutTutRecup(forms.Form):
