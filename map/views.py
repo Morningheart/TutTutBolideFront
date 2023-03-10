@@ -11,9 +11,14 @@ class TutTutRecup(forms.Form):
     villeTo = forms.CharField(label='A:', max_length=20)
 
 # Create your views here.
-def index(request):    
+def index(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
 
-    my_map = create_map()
+    my_map = create_map(ip)
     
     my_map.add_child(copy_coords(alert=False))
 
