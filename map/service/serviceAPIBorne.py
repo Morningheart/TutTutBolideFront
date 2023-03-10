@@ -48,7 +48,8 @@ def callAPIBorne(ville1,ville2, autonomie, my_map):
     dataBorne = clientBorne.execute(query=queryBorne, variables=variablesBorne)
     
     for b in dataBorne["data"]["findChargingZones"]["chargingZones"]:
-        folium.Marker(location=[b["coordinates"][1],b["coordinates"][0]], prefix='fa', icon=folium.Icon(icon='map')).add_to(my_map)
+        icone = folium.Icon(icon="map-location-dot", icon_color="#e67e22", color="white", prefix="fa")
+        folium.Marker(location=[b["coordinates"][1],b["coordinates"][0]], icon=icone).add_to(my_map)
         
     # FinalBorne = dataBorne["data"]["findChargingZones"]["chargingZones"][0]
     # for b in dataBorne["data"]["findChargingZones"]["chargingZones"]:
