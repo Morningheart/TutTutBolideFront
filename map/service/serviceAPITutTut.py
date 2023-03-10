@@ -4,7 +4,7 @@ import requests
 clientTutTut = GraphQLClient(endpoint="https://api.chargetrip.io/graphql")
 queryTutTut = """
 query vehicleListAll {
-  vehicleList (search: $name){
+  vehicleList ($name){
     naming {
       make
       model
@@ -39,13 +39,14 @@ query vehicleListAll {
   }
 }
 """
+#640b1ccee6ec7227c2985eec
 clientTutTut.inject_token("5ed1175bad06853b3aa1e492", "x-client-id")
-clientTutTut.inject_token("623996f3c35130073829b252","x-app-id")
+clientTutTut.inject_token("623996f3c35130073829b252", "x-app-id")
 
 
 def getModeleTutTutFromName(name):
     variablesTutTut = {
-        "name": name
+        "search": name
     }
     
     # Call API to find the bornes
