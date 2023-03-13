@@ -6,4 +6,4 @@ def callDistance(coords):
         {"lon": coords[0][1], "lat": coords[0][0]},
         {"lon": coords[1][1], "lat": coords[1][0]}   
     ]})
-    return res
+    return res.json()["result"]

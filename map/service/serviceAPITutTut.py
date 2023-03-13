@@ -40,9 +40,8 @@ queryTutTut = """
   }
   """
   
-#640b1ccee6ec7227c2985eec
-clientTutTut.inject_token("5ed1175bad06853b3aa1e492", "x-client-id")
-clientTutTut.inject_token("623996f3c35130073829b252", "x-app-id")
+clientTutTut.inject_token("640f10aa75ebf09179388667", "x-client-id")
+clientTutTut.inject_token("640f10aa75ebf09179388669", "x-app-id")
 
 
 def getModeleTutTutFromName(name):
@@ -54,6 +53,6 @@ def getModeleTutTutFromName(name):
   # Call API to find the bornes
   dataTutTut = clientTutTut.execute(query=queryTutTut, variables=variablesTutTut)
   
-  return dataTutTut[0]
+  return dataTutTut
 
     

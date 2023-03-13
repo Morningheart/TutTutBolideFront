@@ -9,11 +9,19 @@ from .service.serviceAPIDistance import callDistance
 from .service.serviceAPITutTut import getModeleTutTutFromName
 from .service.serviceAPIBorne import callAPIBorne
 import requests
+import math
 
 class TutTutRecup(forms.Form):
     tuttutName = forms.CharField(label='Le modèle de votre voiture', max_length=20)
     villeFrom = forms.CharField(label='De:', max_length=20)
     villeTo = forms.CharField(label='A:', max_length=20)
+
+def getStepTrajetCoords(extremites, nbSteps): 
+    sc = []
+    for i in range(0,nbSteps):
+        prog = (i+1)/(nbSteps+1)
+        sc.append([(1-prog)*extremites[0][0] + prog * extremites[1][0], (1-prog)*extremites[0][1] + prog * extremites[1][1]])
+    return sc
 
 # Create your views here.
 def index(request):
@@ -24,7 +32,6 @@ def index(request):
         ip = request.META.get('REMOTE_ADDR')
 
     my_map = create_map(ip)
-    
     my_map.add_child(copy_coords(alert=False))
 
     if request.method == 'POST':
@@ -34,24 +41,33 @@ def index(request):
             coords = [getCoordsOfTown(tuttut.cleaned_data['villeFrom']),getCoordsOfTown(tuttut.cleaned_data['villeTo'])]
             # 2 - API REST -> récup distance entre les points
             distanceMax = callDistance(coords)
-            print(distanceMax)
             # 3 - GRAPHQL -> récup un des modèles correspondant au nom du véhicule
             modeleVoiture = getModeleTutTutFromName(tuttut.cleaned_data['tuttutName'])
             print(modeleVoiture)
             # 4 - autonomie = .7 * autonomie minimale de la TutTut
             autonomie = 100 # HARDCODED
             # 5 - calculer coordonnées moyennes des points intermédiaires (interpolation des coordonnées maximales tmtc)
-            # ...
+            print(distanceMax, " km")
+            # midCoords = getStepTrajetCoords(coords, math.floor(distanceMax/autonomie))
+            # print("Nb arrêt(s) : ", midCoords.__len__())
             # 6 - Chercher une borne aux environs de chacun des points moyens
-            # listBornes = callAPIBorne(tuttut.cleaned_data['villeFrom'],tuttut.cleaned_data['villeTo'], autonomie, my_map)
+            # listBornes = callAPIBorne(midCoords, my_map)
             # 7 - Calculer le trajet avec étapes correspondant aux bornes
-            travel = callAPITravel(tuttut.cleaned_data['villeFrom'],tuttut.cleaned_data['villeTo'], my_map)
+            # travel = callAPITravel(coords, listBornes, my_map)
             # 8 - SOAP -> envoyer distance trajet + temps de recharge moyen + nombre d'arrêts -> temps estimé avec trajet
             # ...
             # 9 - afficher sur la carte le trajet + temps estimé du trajet avec arrêts
-            # ...
+            i = 0
+            # for p in listBornes:
+            #     if p is None:
+            #         folium.Marker([midCoords[i][1],midCoords[i][0]], icon=folium.Icon(icon="hand", icon_color="white", color="red", prefix="fa")).add_to(my_map)
+            #     else:
+            #         folium.Marker([p[1],p[0]], icon=folium.Icon(icon="charging-station", icon_color="white", color="lightblue", prefix="fa")).add_to(my_map)
+            #     i+=1
+            # for p in coords:
+            #     folium.Marker([p[1],p[0]]).add_to(my_map)
             
-            folium.GeoJson(travel, name="Trajet").add_to(my_map)
+            # folium.GeoJson(travel, name="Trajet").add_to(my_map)
             folium.LayerControl().add_to(my_map)
     else:
         tuttut = TutTutRecup()

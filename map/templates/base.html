@@ -6,26 +6,23 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	</head>
-	<nav>
-        <div>
-          <div>
-            <ul>
-				<form action="" method="post">
-					{% csrf_token %}
-					{{ formTutTut }}
-					<input type="submit" value="Submit"/>
-				</form>
-            </ul>
-          </div>
-        </div>
-    </nav>
+
 	<body>
 		<header>
-	
-		</header>
 			<div>
-				{{GigaMap|safe}}
-			</div>
-		
+				<div>
+				  <ul>
+					  <form action="" method="post">
+						  {% csrf_token %}
+						  {{ formTutTut }}
+						  <input type="submit" value="Submit"/>
+					  </form>
+				  </ul>
+				</div>
+			  </div>
+		</header>
+		<div>
+			{{GigaMap|safe}}
+		</div>
 	</body>
 </html>
