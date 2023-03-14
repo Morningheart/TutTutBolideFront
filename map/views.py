@@ -8,6 +8,7 @@ from .service.serviceAPITravel import callAPITravel, getCoordsOfTown
 from .service.serviceAPIDistance import callDistance
 from .service.serviceAPITutTut import getModeleTutTutFromName
 from .service.serviceAPIBorne import callAPIBorne
+from .service.serviceAPICalculTemps import callTime
 import requests
 import math
 
@@ -32,6 +33,10 @@ def index(request):
         ip = request.META.get('REMOTE_ADDR')
 
     my_map = create_map(ip)
+    folium.TileLayer('cartodbpositron').add_to(my_map)
+    # folium.TileLayer('stamenwatercolor').add_to(my_map)
+    # folium.TileLayer('openstreetmap').add_to(my_map)
+
     my_map.add_child(copy_coords(alert=False))
 
     if request.method == 'POST':
@@ -48,26 +53,27 @@ def index(request):
             autonomie = 100 # HARDCODED
             # 5 - calculer coordonnées moyennes des points intermédiaires (interpolation des coordonnées maximales tmtc)
             print(distanceMax, " km")
-            # midCoords = getStepTrajetCoords(coords, math.floor(distanceMax/autonomie))
-            # print("Nb arrêt(s) : ", midCoords.__len__())
+            midCoords = getStepTrajetCoords(coords, math.floor(distanceMax/autonomie))
+            print("Nb arrêt(s) : ", midCoords.__len__())
             # 6 - Chercher une borne aux environs de chacun des points moyens
-            # listBornes = callAPIBorne(midCoords, my_map)
+            listBornes = callAPIBorne(midCoords, my_map)
             # 7 - Calculer le trajet avec étapes correspondant aux bornes
-            # travel = callAPITravel(coords, listBornes, my_map)
+            travel = callAPITravel(coords, listBornes, my_map)
             # 8 - SOAP -> envoyer distance trajet + temps de recharge moyen + nombre d'arrêts -> temps estimé avec trajet
-            # ...
+            tpsTrajet = callTime(distanceMax, autonomie, midCoords.__len__())
+            print("Temps estimé : ", tpsTrajet, " min")
             # 9 - afficher sur la carte le trajet + temps estimé du trajet avec arrêts
             i = 0
-            # for p in listBornes:
-            #     if p is None:
-            #         folium.Marker([midCoords[i][1],midCoords[i][0]], icon=folium.Icon(icon="hand", icon_color="white", color="red", prefix="fa")).add_to(my_map)
-            #     else:
-            #         folium.Marker([p[1],p[0]], icon=folium.Icon(icon="charging-station", icon_color="white", color="lightblue", prefix="fa")).add_to(my_map)
-            #     i+=1
-            # for p in coords:
-            #     folium.Marker([p[1],p[0]]).add_to(my_map)
+            for p in listBornes:
+                if p is None:
+                    folium.Marker([midCoords[i][1],midCoords[i][0]], icon=folium.Icon(icon="hand", icon_color="white", color="red", prefix="fa")).add_to(my_map)
+                else:
+                    folium.Marker([p[1],p[0]], icon=folium.Icon(icon="charging-station", icon_color="white", color="lightblue", prefix="fa")).add_to(my_map)
+                i+=1
+            for p in coords:
+                folium.Marker([p[1],p[0]]).add_to(my_map)
             
-            # folium.GeoJson(travel, name="Trajet").add_to(my_map)
+            folium.GeoJson(travel, name="Trajet").add_to(my_map)
             folium.LayerControl().add_to(my_map)
     else:
         tuttut = TutTutRecup()
