@@ -50,7 +50,7 @@ def index(request):
             modeleVoiture = getModeleTutTutFromName(tuttut.cleaned_data['tuttutName'])
             print(modeleVoiture)
             # 4 - autonomie = .7 * autonomie minimale de la TutTut
-            autonomie = 100 # HARDCODED
+            autonomie = .7*modeleVoiture["range"]["chargetrip_range"]["worst"]
             # 5 - calculer coordonnées moyennes des points intermédiaires (interpolation des coordonnées maximales tmtc)
             print(distanceMax, " km")
             midCoords = getStepTrajetCoords(coords, math.floor(distanceMax/autonomie))
@@ -60,7 +60,7 @@ def index(request):
             # 7 - Calculer le trajet avec étapes correspondant aux bornes
             travel = callAPITravel(coords, listBornes, my_map)
             # 8 - SOAP -> envoyer distance trajet + temps de recharge moyen + nombre d'arrêts -> temps estimé avec trajet
-            tpsTrajet = callTime(distanceMax, autonomie, midCoords.__len__())
+            tpsTrajet = callTime(distanceMax, min([c["time"] for c in modeleVoiture["connectors"]]), midCoords.__len__())
             print("Temps estimé : ", tpsTrajet, " min")
             # 9 - afficher sur la carte le trajet + temps estimé du trajet avec arrêts
             i = 0
