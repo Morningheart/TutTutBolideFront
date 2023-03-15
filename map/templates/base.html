@@ -5,23 +5,20 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		{% load static %}
+		<link rel="stylesheet" href="{% static 'map/style.css' %}">
 	</head>
 
 	<body>
 		<header>
-			<div>
-				<div>
-				  <ul>
-					  <form action="" method="post">
-						  {% csrf_token %}
-						  {{ formTutTut }}
-						  <input type="submit" value="Submit"/>
-					  </form>
-				  </ul>
-				</div>
-			  </div>
+			<h1>TutTutBolide</h1>
+			<form action="" method="post">
+				{% csrf_token %}
+				{{ formTutTut }}
+				<button type="Submit">Submit</button>
+			</form>
 		</header>
-		<div>
+		<div class="mapStyle">
 			{{GigaMap|safe}}
 		</div>
 	</body>

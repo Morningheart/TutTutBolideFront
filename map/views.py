@@ -9,8 +9,10 @@ from .service.serviceAPIDistance import callDistance
 from .service.serviceAPITutTut import getModeleTutTutFromName
 from .service.serviceAPIBorne import callAPIBorne
 from .service.serviceAPICalculTemps import callTime
+
 import requests
 import math
+import folium
 
 
 class TutTutRecup(forms.Form):

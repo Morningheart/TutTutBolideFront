@@ -1,0 +1,87 @@
+/* CSS de ma page : Thème sombre 
+Header : qui survole la carte
+
+
+
+*/
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Lucida Sans', sans-serif;
+    color: aliceblue;
+    text-shadow: 100px 100px 100px #fff;
+}
+
+html, body 
+{ 
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+}
+
+iframe{
+    overflow: hidden;
+    border-radius: 5px;
+}
+
+header{
+    position: absolute;
+    z-index: 100;
+    top: 20px;
+    right: 20px;
+    margin-left: 70px;
+    padding: 10px;
+    background-color: #16161e;
+    border-radius: 5px;
+    box-shadow: 5px 5px 20px #000;
+}
+
+.mapStyle::-webkit-scrollbar{
+    display: none;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+button{
+    width: 200px;
+    height: 30px;
+    border-radius: 5px;
+    border: none;
+    background-color: aliceblue;
+    color: #16161e;
+    font-weight: bold;
+    margin-top: 10px;
+    cursor: pointer;
+    box-shadow: 0 0 5px #fff;
+}
+
+#id_tuttutName, #id_villeFrom, #id_villeTo{
+    width: 200px;
+    height: 30px;
+    border-radius: 5px;
+    border: none;
+    padding-left: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 5px #fff;
+}
+
+label{
+    margin-bottom: 10px;
+}
+
+h1 {
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 10px;
+
+    text-shadow: 2px 2px 0px #3F7FBF;
+    mix-blend-mode: screen;
+}
