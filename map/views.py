@@ -16,9 +16,11 @@ import folium
 
 
 class TutTutRecup(forms.Form):
-    tuttutName = forms.CharField(label='Le modèle de votre voiture', max_length=20)
-    villeFrom = forms.CharField(label='De:', max_length=20)
-    villeTo = forms.CharField(label='A:', max_length=20)
+    tuttutName = forms.CharField(label='Le modèle de votre voiture', max_length=20, initial="Tesla", widget=forms.TextInput(attrs={'placeholder': 'Ex: Tesla, I3, ...'}) )
+    villeFrom = forms.CharField(label='De:', max_length=20,widget=forms.TextInput(attrs={'placeholder': 'Ville: Paris, Lyon, ...'}) )
+    paysFrom = forms.CharField(label='',max_length=20,             widget=forms.TextInput(attrs={'placeholder': 'Pays: France, Belgique, ...'}) )
+    villeTo = forms.CharField(label='A:', max_length=20,    widget=forms.TextInput(attrs={'placeholder': 'Ville: Paris, Lyon, ...'}))
+    paysTo = forms.CharField(label='',max_length=20,               widget=forms.TextInput(attrs={'placeholder': 'Pays: France, Belgique, ...'}))
 
 
 def getStepTrajetCoords(extremites, nbSteps):
@@ -29,6 +31,10 @@ def getStepTrajetCoords(extremites, nbSteps):
                    (1 - prog) * extremites[0][1] + prog * extremites[1][1]])
     return sc
 
+def formatHour(time):
+    if time > 59:
+        return f"{time//60}H {time%60}m"
+    return f"{time%60}m"
 
 # Create your views here.
 def index(request):
@@ -49,13 +55,12 @@ def index(request):
         tuttut = TutTutRecup(request.POST)
         if tuttut.is_valid():
             # 1 - récupérer les coordonnées des villes départ arrivée
-            coords = [getCoordsOfTown(tuttut.cleaned_data['villeFrom']),
-                      getCoordsOfTown(tuttut.cleaned_data['villeTo'])]
+            coords = [getCoordsOfTown(tuttut.cleaned_data['villeFrom'], tuttut.cleaned_data['paysFrom']),
+                      getCoordsOfTown(tuttut.cleaned_data['villeTo'], tuttut.cleaned_data['paysTo'])]
             # 2 - API REST -> récup distance entre les points
             distanceMax = callDistance(coords)
             # 3 - GRAPHQL -> récup un des modèles correspondant au nom du véhicule
             modeleVoiture = getModeleTutTutFromName(tuttut.cleaned_data['tuttutName'])
-            print(modeleVoiture)
             # 4 - autonomie = .7 * autonomie minimale de la TutTut
             autonomie = .7 * modeleVoiture["range"]["chargetrip_range"]["worst"]
             # 5 - calculer coordonnées moyennes des points intermédiaires (interpolation des coordonnées maximales tmtc)
@@ -90,8 +95,10 @@ def index(request):
     else:
         tuttut = TutTutRecup()
         tpsTrajet = -1
+        distanceMax = -1
 
     # Display the map
     # return HttpResponse(my_map._repr_html_())
+    tpsTrajet = formatHour(tpsTrajet) if tpsTrajet != -1 else -1
     my_map.fit_bounds(my_map.get_bounds())
-    return render(request, 'base.html', {'GigaMap': my_map._repr_html_(), 'formTutTut': tuttut, 'tpsTrajet': tpsTrajet})
+    return render(request, 'base.html', {'GigaMap': my_map._repr_html_(), 'formTutTut': tuttut, 'tpsTrajet': tpsTrajet, 'distTrajet': int(distanceMax)})

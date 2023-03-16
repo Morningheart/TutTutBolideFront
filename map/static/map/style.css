@@ -62,7 +62,7 @@ button{
     box-shadow: 0 0 5px #fff;
 }
 
-#id_tuttutName, #id_villeFrom, #id_villeTo{
+#id_tuttutName, #id_villeFrom, #id_villeTo, #id_paysFrom, #id_paysTo{
     width: 200px;
     height: 30px;
     border-radius: 5px;

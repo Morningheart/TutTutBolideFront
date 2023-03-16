@@ -1,8 +1,13 @@
 import requests
 import folium
 
-def getCoordsOfTown(town):
-    ville = requests.get("https://api.openrouteservice.org/geocode/search?api_key=5b3ce3597851110001cf6248ae8b2b8cd4f943509643db9544603784&text="+ town)# +"&boundary.country=FR")
+def getCoordsOfTown(town,country):
+    parsedCountry=requests.get(f"https://restcountries.com/v3.1/name/{country}")
+    if type(parsedCountry.json()) == type({"ceci":"estunobjet"}) or parsedCountry.json().__len__() == 0:
+        parsedCountry = ""
+    else:
+        parsedCountry = f"&boundary.country={parsedCountry.json()[0]['cca2']}"
+    ville = requests.get(f"https://api.openrouteservice.org/geocode/search?api_key=5b3ce3597851110001cf6248ae8b2b8cd4f943509643db9544603784&text={town}{parsedCountry}")
     return ville.json()['features'][0]['geometry']['coordinates']
 
 def callAPITravel(extremites, bornes, my_map):
