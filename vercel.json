@@ -23,11 +23,5 @@
       "src": "/(.*)",
       "dest": "vercel_app/wsgi.py"
     }
-  ],
-  "function":{
-    "/vercel_app/wsgi.py": {
-      "memory": 1024,
-      "maxDuration": 60
-    }
-  }
+  ]
 }
