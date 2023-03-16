@@ -89,8 +89,9 @@ def index(request):
             folium.LayerControl().add_to(my_map)
     else:
         tuttut = TutTutRecup()
+        tpsTrajet = -1
 
     # Display the map
     # return HttpResponse(my_map._repr_html_())
     my_map.fit_bounds(my_map.get_bounds())
-    return render(request, 'base.html', {'GigaMap': my_map._repr_html_(), 'formTutTut': tuttut})
+    return render(request, 'base.html', {'GigaMap': my_map._repr_html_(), 'formTutTut': tuttut, 'tpsTrajet': tpsTrajet})

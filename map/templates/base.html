@@ -17,6 +17,11 @@
 				{{ formTutTut }}
 				<button type="Submit">Submit</button>
 			</form>
+			{% if tpsTrajet != -1 %}
+				<div class="tpsTrajet">
+					Temps estimé : {{tpsTrajet}}
+				</div>
+			{% endif %}
 		</header>
 		<div class="mapStyle">
 			{{GigaMap|safe}}
